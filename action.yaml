@@ -1,0 +1,32 @@
+name: "KW: CloudFlare - Configure Tunnel Ingress"
+description: "Sets CloudFlare ZeroTrust Tunnel Ingress rules"
+author: "KouraWealth"
+
+inputs:
+  id:
+    description: "Tunnel id"
+  name:
+    description: "Tunnel name"
+  endpoints:
+    description: "Comma separated list of endpoints in the form of 'domain|http://localdomain:port'"
+    required: true
+  account_id:
+    description: "CloudFlare Account ID"
+    required: true
+  token:
+    description: "CloudFlare API token"
+    required: true
+
+outputs:
+  id:
+    description: "Tunnel ID"
+  token:
+    description: "Tunnel access token"
+
+runs:
+  using: "node20"
+  main: "main.js"
+
+branding:
+  icon: "globe"
+  color: "green"
