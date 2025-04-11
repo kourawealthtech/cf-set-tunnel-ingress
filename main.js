@@ -69,7 +69,7 @@ const configureTunnel = (id) => {
       }
 
     }),
-    `${CF_API_BASE_URL}/accounts/${process.env.INPUT_ACCOUNT_ID}/cfd_tunnel/${id}`,
+    `${CF_API_BASE_URL}/accounts/${process.env.INPUT_ACCOUNT_ID}/cfd_tunnel/${id}/configurations`,
   ]);
 
   if (status !== 0) {
