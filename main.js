@@ -42,9 +42,13 @@ const getCurrentTunnelId = () => {
 
 const configureTunnel = (id) => {
   const ingresses = process.env.INPUT_ENDPOINTS.split(",").map((x) => {
-    const [hostname, service] = x.replace(/\s/, '').split("|");
+    const [hostNpath, service] = x.replace(/\s/, '').split("|");
+    const hostNpathArr = hostNpath.split("/", 2);
+    const hostname = hostNpathArr[0];
+    const path = hostNpathArr.length == 1 ? '' : (hostNpathArr[1] || '/');
     return {
       hostname,
+      path,
       service,
       origin_request: {
         no_tls_verify: true
