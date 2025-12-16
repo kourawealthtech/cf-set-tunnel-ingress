@@ -42,7 +42,10 @@ const getCurrentTunnelId = () => {
 
 const configureTunnel = (id) => {
   const ingresses = process.env.INPUT_ENDPOINTS.split(/[,\n]/).map((x) => {
+    console.log(`- Parsing endpoint: ${x}`);
     const [hostNpath, service] = x.replace(/\s/g, '').split('|');
+    console.log(`--- host&path: ${hostNpath}`);
+    console.log(`--- service: ${service}`);
     const hostNpathArr = hostNpath.split("/", 2);
     const hostname = hostNpathArr[0];
     const path = hostNpathArr.length == 1 ? '' : (hostNpathArr[1] || '/');
@@ -84,7 +87,7 @@ const configureTunnel = (id) => {
 
   if (!success) {
     console.dir(errors[0]);
-    console.log(`::error ::${errors[0].message}`);
+    console.log(`::error::${errors[0].message}`);
     process.exit(1);
   }
 };
