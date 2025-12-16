@@ -41,23 +41,27 @@ const getCurrentTunnelId = () => {
 };
 
 const configureTunnel = (id) => {
-  const ingresses = process.env.INPUT_ENDPOINTS.replace(/\s/g, '').split(/[,\n]/).map((x) => {
-    console.log(`- Parsing endpoint: ${x}`);
-    const [hostNpath, service] = x.split('|');
-    console.log(`--- host&path: ${hostNpath}`);
-    console.log(`--- service: ${service}`);
-    const hostNpathArr = hostNpath.split("/", 2);
-    const hostname = hostNpathArr[0];
-    const path = hostNpathArr.length == 1 ? '' : (hostNpathArr[1] || '/');
-    return {
-      hostname,
-      path,
-      service,
-      origin_request: {
-        no_tls_verify: true
-      }
-    };
-  });
+  const ingresses = process.env.INPUT_ENDPOINTS
+    .split(/[,\n]/)
+    .map((s) => s.replace(/\s/g, ''))
+    .filter(s => s.length)
+    .map((x) => {
+      console.log(`- Parsing endpoint: ${x}`);
+      const [hostNpath, service] = x.split('|');
+      console.log(`::info::Mapping ${hostNpath} -> ${service}`);
+      
+      const hostNpathArr = hostNpath.split("/", 2);
+      const hostname = hostNpathArr[0];
+      const path = hostNpathArr.length == 1 ? '' : (hostNpathArr[1] || '/');
+      return {
+        hostname,
+        path,
+        service,
+        origin_request: {
+          no_tls_verify: true
+        }
+      };
+    });
 
   const { status, stdout } = cp.spawnSync("curl", [
     ...["--request", "PUT"],
