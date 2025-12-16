@@ -25,7 +25,7 @@ const getCurrentTunnelId = () => {
   const { success, result, errors } = JSON.parse(stdout.toString());
 
   if (!success) {
-    console.log(`::error ::${errors[0].message}`);
+    console.log(`::error::${errors[0].message}`);
     process.exit(1);
   }
 
@@ -48,7 +48,7 @@ const configureTunnel = (id) => {
     .map((x) => {
       console.log(`- Parsing endpoint: ${x}`);
       const [hostNpath, service] = x.split('|');
-      console.log(`::info::Mapping ${hostNpath} -> ${service}`);
+      console.log(`::notice::Mapping ${hostNpath} -> ${service}`);
       
       const hostNpathArr = hostNpath.split("/", 2);
       const hostname = hostNpathArr[0];
